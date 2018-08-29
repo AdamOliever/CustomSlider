@@ -21,19 +21,10 @@ class CustomSlider: NSControl {
         self.cell = customSliderCell.init(textCell: "")
     }
     
-    override func draw(_ dirtyRect: NSRect) {
-        super.draw(dirtyRect)
-    }
-    
     override func viewWillMove(toWindow newWindow: NSWindow?) {
         super.viewWillMove(toWindow: newWindow)
         self.addTrackingRect(self.bounds, owner: self, userData: nil, assumeInside: true)
     }
-    
-    override func scrollWheel(with event: NSEvent) {
-        
-    }
-    
 }
 
 
@@ -58,12 +49,14 @@ class customSliderCell:NSSliderCell{
        super.init(coder: coder)
        defaultValue()
     }
+    
     func defaultValue() {
         sliderTitle = String("Exposure")
         textFiled = NSTextField.init(frame: NSMakeRect(0, 0, 50, 30))
         textFiled.isEditable = true
         textFiled.isBordered = false
         textFiled.alignment = NSTextAlignment.center
+        textFiled.bezelStyle = NSTextField.BezelStyle.squareBezel
         minValue = -100
         maxValue = 100
         value = 40
@@ -114,7 +107,6 @@ class customSliderCell:NSSliderCell{
         triangelPath.fill()
         
         //draw Spinbox button
-        
         let textFiledCellRect = NSMakeRect(NSMaxX(cellFrame) - textFiledSize.width, NSMinY(cellFrame), textFiledSize.width, textFiledSize.height)
         
         textFiled.backgroundColor = NSColor.init(named: NSColor.Name.init(String("SpinBoxButtonColor")))
@@ -122,7 +114,6 @@ class customSliderCell:NSSliderCell{
         textFiled.stringValue = String.init(format: "%0.01lf", value)
     }
 
-    
     //value area
     func valueAreaRect(frame cellFrame:NSRect) -> NSRect {
         let sliderWidth:CGFloat = sliderArea(frame: cellFrame).size.width
@@ -158,7 +149,7 @@ class customSliderCell:NSSliderCell{
     func cacluteValue(location point:NSPoint)->CGFloat{
         
         let sliderRect:NSRect = sliderArea(frame: (controlView?.bounds)!)
-        if !NSPointInRect(point, sliderRect){
+        if point.x > NSMaxX(sliderRect){
             return value
         }
         
@@ -185,8 +176,8 @@ extension customSliderCell{
         else{
             isInTriangel = false
         }
-        super.continueTracking(last: lastPoint, current: currentPoint, in: controlView)
         print("Adam-Debug: " + NSStringFromPoint(lastPoint))
+        super.continueTracking(last: lastPoint, current: currentPoint, in: controlView)
         value = cacluteValue(location: lastPoint)
         controlView.needsLayout = true
         controlView.needsDisplay = true
