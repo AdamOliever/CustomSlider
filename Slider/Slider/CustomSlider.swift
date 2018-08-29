@@ -51,6 +51,14 @@ class customSliderCell:NSSliderCell{
     
     override init(textCell string: String) {
         super.init(textCell: string)
+        defaultValue()
+    }
+    
+    required init(coder: NSCoder) {
+       super.init(coder: coder)
+       defaultValue()
+    }
+    func defaultValue() {
         sliderTitle = String("Exposure")
         textFiled = NSTextField.init(frame: NSMakeRect(0, 0, 50, 30))
         textFiled.isEditable = true
@@ -60,10 +68,6 @@ class customSliderCell:NSSliderCell{
         maxValue = 100
         value = 40
         isInTriangel = false
-    }
-    
-    required init(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
     
     override func draw(withFrame cellFrame: NSRect, in controlView: NSView) {
@@ -172,7 +176,7 @@ class customSliderCell:NSSliderCell{
         return calValue
     }
 }
-
+//tracking event
 extension customSliderCell{
     override func continueTracking(last lastPoint: NSPoint, current currentPoint: NSPoint, in controlView: NSView) -> Bool {
         if triangelRect(frame: controlView.bounds).isInTriangelArea(Point: lastPoint){
@@ -202,11 +206,6 @@ extension customSliderCell{
     override func stopTracking(last lastPoint: NSPoint, current stopPoint: NSPoint, in controlView: NSView, mouseIsUp flag: Bool) {
         
         return super.stopTracking(last: lastPoint, current: stopPoint, in: controlView, mouseIsUp: flag)
-    }
-    override func startTracking(at startPoint: NSPoint, in controlView: NSView) -> Bool {
-        super.startTracking(at: startPoint, in: controlView)
-        
-        return true
     }
     
 }
