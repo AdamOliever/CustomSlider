@@ -9,7 +9,7 @@
 import Cocoa
 
 class CustomSlider: NSControl {
-    var textFlied:NSTextField!
+    var textFlied:SpinBoxButton!
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         
@@ -18,12 +18,25 @@ class CustomSlider: NSControl {
     
     override init(frame frameRect: NSRect) {
         super.init(frame: frameRect)
-        self.cell = customSliderCell.init(textCell: "")
+        cell = customSliderCell.init(textCell: "")
+        textFlied = SpinBoxButton.init(frame: NSMakeRect(250, 0, 50, 30))
+        addSubview(textFlied)
+        
     }
     
     override func viewWillMove(toWindow newWindow: NSWindow?) {
         super.viewWillMove(toWindow: newWindow)
         self.addTrackingRect(self.bounds, owner: self, userData: nil, assumeInside: true)
+        self.bind(NSBindingName.init(String("doubleValue")), to: textFlied, withKeyPath: String("doubleValue"), options: nil)
+    }
+    
+    override var doubleValue: Double{
+        set(newValue){
+            (cell as! customSliderCell).value = CGFloat.init(newValue)        }
+        
+        get{
+            return Double.init((cell as! customSliderCell).value)
+        }
     }
 }
 
@@ -107,7 +120,7 @@ class customSliderCell:NSSliderCell{
         triangelPath.fill()
         
         //draw Spinbox button
-        let textFiledCellRect = NSMakeRect(NSMaxX(cellFrame) - textFiledSize.width, NSMinY(cellFrame), textFiledSize.width, textFiledSize.height)
+        let textFiledCellRect = spinBoxButtonArea(frame: cellFrame)
         
         textFiled.backgroundColor = NSColor.init(named: NSColor.Name.init(String("SpinBoxButtonColor")))
         textFiled.cell?.draw(withFrame: textFiledCellRect, in: controlView)
@@ -144,15 +157,18 @@ class customSliderCell:NSSliderCell{
         
         return triangelArea
     }
-    
+    //spinbox button area
+    func spinBoxButtonArea(frame cellFrame:NSRect) -> NSRect {
+        return  NSMakeRect(NSMaxX(cellFrame) - textFiledSize.width, NSMinY(cellFrame), textFiledSize.width, textFiledSize.height)
+    }
     //calculate the value with mouse location
     func cacluteValue(location point:NSPoint)->CGFloat{
         
         let sliderRect:NSRect = sliderArea(frame: (controlView?.bounds)!)
-        if point.x > NSMaxX(sliderRect){
-            return value
-        }
-        
+//        if point.x > NSMaxX(sliderRect){
+//            return value
+//        }
+//        
         let valueAreaWith:CGFloat = point.x - sliderRect.origin.x
         var calValue:CGFloat = CGFloat(minValue) + valueAreaWith / (sliderRect.size.width) * (CGFloat( maxValue) - CGFloat(minValue))
         
@@ -187,9 +203,15 @@ extension customSliderCell{
     
     override func trackMouse(with event: NSEvent, in cellFrame: NSRect, of controlView: NSView, untilMouseUp flag: Bool) -> Bool {
         let mouseLocation:NSPoint = controlView.convert(event.locationInWindow, from: nil)
-        value = cacluteValue(location: mouseLocation)
-        controlView.needsLayout = true
-        controlView.needsDisplay = true
+        
+        if NSPointInRect(mouseLocation, sliderArea(frame: cellFrame)){
+            value = cacluteValue(location: mouseLocation)
+            controlView.needsLayout = true
+            controlView.needsDisplay = true
+        }else if NSPointInRect(mouseLocation, spinBoxButtonArea(frame: cellFrame)){
+           
+        }
+        
         
         return super.trackMouse(with: event, in: cellFrame, of: controlView, untilMouseUp: flag)
     }

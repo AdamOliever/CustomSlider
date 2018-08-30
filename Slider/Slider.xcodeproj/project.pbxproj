@@ -14,6 +14,7 @@
 		66B4353421363FBE00C9BC9A /* SliderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66B4353321363FBE00C9BC9A /* SliderTests.swift */; };
 		66B4353F21363FBE00C9BC9A /* SliderUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66B4353E21363FBE00C9BC9A /* SliderUITests.swift */; };
 		66B4354F213642B200C9BC9A /* CustomSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66B4354E213642B200C9BC9A /* CustomSlider.swift */; };
+		66B435652136AC0D00C9BC9A /* SpinBoxButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66B435642136AC0D00C9BC9A /* SpinBoxButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +49,7 @@
 		66B4353E21363FBE00C9BC9A /* SliderUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderUITests.swift; sourceTree = "<group>"; };
 		66B4354021363FBE00C9BC9A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		66B4354E213642B200C9BC9A /* CustomSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSlider.swift; sourceTree = "<group>"; };
+		66B435642136AC0D00C9BC9A /* SpinBoxButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinBoxButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +107,7 @@
 				66B4352921363FBE00C9BC9A /* Info.plist */,
 				66B4352A21363FBE00C9BC9A /* Slider.entitlements */,
 				66B4354E213642B200C9BC9A /* CustomSlider.swift */,
+				66B435642136AC0D00C9BC9A /* SpinBoxButton.swift */,
 			);
 			path = Slider;
 			sourceTree = "<group>";
@@ -258,6 +261,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				66B4352321363FBC00C9BC9A /* ViewController.swift in Sources */,
+				66B435652136AC0D00C9BC9A /* SpinBoxButton.swift in Sources */,
 				66B4354F213642B200C9BC9A /* CustomSlider.swift in Sources */,
 				66B4352121363FBC00C9BC9A /* AppDelegate.swift in Sources */,
 			);
